@@ -27,6 +27,15 @@ import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
 import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
+import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
+import FontSize from '@ckeditor/ckeditor5-font/src/fontsize';
+import FontFamily from '@ckeditor/ckeditor5-font/src/fontfamily';
+import Highlight from '@ckeditor/ckeditor5-highlight/src/highlight';
+import Strikethrough from '@ckeditor/ckeditor5-basic-styles/src/strikethrough';
+import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
+import Placeholder from './plugin/place-holder/placeholder';
+import Save from './plugin/save/save';
+import ConditionalRender from './plugin/conditional-render/conditionalrender';
 
 export default class InlineEditor extends InlineEditorBase {}
 
@@ -37,6 +46,8 @@ InlineEditor.builtinPlugins = [
 	Autoformat,
 	Bold,
 	Italic,
+	Strikethrough,
+	Underline,
 	BlockQuote,
 	CKFinder,
 	EasyImage,
@@ -52,7 +63,14 @@ InlineEditor.builtinPlugins = [
 	Paragraph,
 	PasteFromOffice,
 	Table,
-	TableToolbar
+	Alignment,
+	FontSize,
+	FontFamily,
+	Highlight,
+	TableToolbar,
+	Placeholder,
+	Save,
+	ConditionalRender,
 ];
 
 // Editor configuration.
@@ -61,17 +79,24 @@ InlineEditor.defaultConfig = {
 		items: [
 			'heading',
 			'|',
+			'fontsize',
+			'fontfamily',
+			'|',
 			'bold',
 			'italic',
+			'underline',
+			'strikethrough',
+			'highlight',
 			'link',
 			'bulletedList',
 			'numberedList',
 			'imageUpload',
-			'blockQuote',
 			'insertTable',
 			'mediaEmbed',
-			'undo',
-			'redo'
+			'|',
+			'placeholder',
+			'conditional',
+			'save',
 		]
 	},
 	image: {
@@ -88,6 +113,9 @@ InlineEditor.defaultConfig = {
 			'tableRow',
 			'mergeTableCells'
 		]
+	},
+	placeholderConfig: {
+		types: []
 	},
 	// This value must be kept in sync with the language defined in webpack.config.js.
 	language: 'en'
