@@ -95,7 +95,7 @@ InlineEditor.defaultConfig = {
 			'mediaEmbed',
 			'|',
 			'placeholder',
-			'conditional',
+			//'conditional',
 			'save',
 		]
 	},
