@@ -29,8 +29,8 @@ export default class ConditionalRenderEditing extends Plugin {
 
         conversion.for( 'upcast' ).elementToElement( {
             model: (viewElement, modelWriter) => {
-                //const name = viewElement.getChild( 0 ).data.slice( 1, -1 );
-                return modelWriter.createElement( 'conditionalRenderer');
+                const condition = viewElement.getChild( 0 ).data.slice( 1, -1 );
+                return modelWriter.createElement( 'conditionalRenderer',{condition});
             },
             view: {
                 name: 'div',
@@ -51,19 +51,21 @@ export default class ConditionalRenderEditing extends Plugin {
     }
 
     createContentRendererView(modelItem, viewWriter)  {
+
+        const condition = modelItem.getAttribute( 'condition' );
         const view = viewWriter.createContainerElement( 'div', {
             class: 'conditional-renderer'
         } );
 
-        const condition =  viewWriter.createUIElement('span',{class:'condition'},(domDocument)=>{
-            const domElement = condition.toDomElement( domDocument );
-            domElement.innerHTML = '<b>this is ui element</b>';
+        const conditionView =  viewWriter.createUIElement('span',{class:'condition'},(domDocument)=>{
+            const domElement = conditionView.toDomElement( domDocument );
+            domElement.innerHTML = '{'+condition+'}';
             return domElement;
         });
 
         //const innerText = viewWriter.createText( '{TEST}' );
 
-        viewWriter.insert( viewWriter.createPositionAt( view, 0 ), condition );
+        viewWriter.insert( viewWriter.createPositionAt( view, 0 ), conditionView );
         return view;
     }
 
