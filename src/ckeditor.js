@@ -117,6 +117,7 @@ InlineEditor.defaultConfig = {
 	placeholderConfig: {
 		types: []
 	},
+	autoParagraph : false,
 	// This value must be kept in sync with the language defined in webpack.config.js.
 	language: 'en'
 };

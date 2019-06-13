@@ -20,6 +20,12 @@ export default class ConditionalRenderEditing extends Plugin {
             allowAttributes: [ 'condition' ]
         });
 
+        /*schema.register('conditionStart', {
+            allowIn: 'conditionalRenderer',
+            
+            allowContentOf: '$block'
+        })*/
+
         this.defineConverters();
         //editor.conversion.elementToElement( { model: 'conditionalRenderer', view: { name: 'div', classes: 'conditional-renderer' } } );
     }
@@ -48,6 +54,14 @@ export default class ConditionalRenderEditing extends Plugin {
             model: 'conditionalRenderer',
             view: this.createContentRendererView
         });  
+
+        /*conversion.elementToElement({
+            model:'conditionStart',
+            view:{
+                name:'span',
+                classes:'condition-start'
+            }
+        });*/
     }
 
     createContentRendererView(modelItem, viewWriter)  {
@@ -55,17 +69,24 @@ export default class ConditionalRenderEditing extends Plugin {
         const condition = modelItem.getAttribute( 'condition' );
         const view = viewWriter.createContainerElement( 'div', {
             class: 'conditional-renderer'
-        } );
+        });
 
-        const conditionView =  viewWriter.createUIElement('span',{class:'condition'},(domDocument)=>{
+        /*const conditionView =  viewWriter.createUIElement('span',{class:'condition'},(domDocument)=>{
             const domElement = conditionView.toDomElement( domDocument );
             domElement.innerHTML = '{'+condition+'}';
             return domElement;
         });
 
+        const conditionViewEnd =  viewWriter.createUIElement('span',{class:'condition-end'},(domDocument)=>{
+            const domElement = conditionViewEnd.toDomElement( domDocument );
+            domElement.innerHTML = '{/}';
+            return domElement;
+        });
+
         //const innerText = viewWriter.createText( '{TEST}' );
 
-        viewWriter.insert( viewWriter.createPositionAt( view, 0 ), conditionView );
+        viewWriter.insert( viewWriter.createPositionAt(view, 0 ), conditionView );
+        viewWriter.insert( viewWriter.createPositionAt(view, 1 ), conditionViewEnd );*/
         return view;
     }
 
