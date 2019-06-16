@@ -1,6 +1,6 @@
 
 import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
-import { toWidget } from '@ckeditor/ckeditor5-widget/src/utils';
+import { toWidget, toWidgetEditable, viewToModelPositionOutsideModelElement } from '@ckeditor/ckeditor5-widget/src/utils';
 import Widget from '@ckeditor/ckeditor5-widget/src/widget';
 
 
@@ -28,6 +28,10 @@ export default class ConditionalRenderEditing extends Plugin {
 
         this.defineConverters();
         //editor.conversion.elementToElement( { model: 'conditionalRenderer', view: { name: 'div', classes: 'conditional-renderer' } } );
+        this.editor.editing.mapper.on(
+            'viewToModelPosition',
+            viewToModelPositionOutsideModelElement( this.editor.model, viewElement => viewElement.hasClass( 'conditionalRenderer' ) )
+        );
     }
     
     defineConverters() {
@@ -52,7 +56,10 @@ export default class ConditionalRenderEditing extends Plugin {
 
         conversion.for( 'editingDowncast' ).elementToElement( {
             model: 'conditionalRenderer',
-            view: this.createContentRendererView
+            view: (modelItem, viewWriter)=>{
+                const widgetElement = this.createContentRendererView(modelItem, viewWriter);
+                return  toWidgetEditable( widgetElement, viewWriter );
+            }
         });  
 
         /*conversion.elementToElement({
